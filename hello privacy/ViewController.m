@@ -16,7 +16,7 @@
 @implementation ViewController
 
 - (void)viewDidLoad {
-    //[super viewDidLoad];
+    [super viewDidLoad];
     // Do any additional setup after loading the view.
     [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(screenshotTaken)
@@ -48,10 +48,27 @@
 - (void)screenshotTaken {
     // Respond to screenshot event here
     // For example, you can present an alert or disable user interaction
-    NSLog(@"Hello, From Screenshoot deltected");
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Screenshot Detected" message:@"Screenshots are not allowed in this app." preferredStyle:UIAlertControllerStyleAlert];
-    [alertController addAction:[UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:nil]];
-    [self presentViewController:alertController animated:YES completion:nil];
+    NSLog(@"Hello, From Screenshoot detected");
+    
+    // Create overlay view
+    UIView *overlayView = [[UIView alloc] initWithFrame:self.view.bounds];
+    overlayView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.7]; // Semi-transparent black background
+    
+    // Add label to overlay view
+    UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(overlayView.frame), 50)];
+    messageLabel.text = @"Screenshots are not allowed";
+    messageLabel.textColor = [UIColor whiteColor];
+    messageLabel.textAlignment = NSTextAlignmentCenter;
+    messageLabel.center = overlayView.center;
+    [overlayView addSubview:messageLabel];
+    
+    // Add overlay view to the main view
+    [self.view addSubview:overlayView];
+    
+    // Remove overlay view after a delay (e.g., 3 seconds)
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [overlayView removeFromSuperview];
+    });
 }
 
 - (void)dealloc {
