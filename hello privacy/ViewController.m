@@ -52,12 +52,12 @@
     
     // Create overlay view
     UIView *overlayView = [[UIView alloc] initWithFrame:self.view.bounds];
-    overlayView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.7]; // Semi-transparent black background
-    
+    overlayView.backgroundColor = [UIColor whiteColor]; // White background
+
     // Add label to overlay view
     UILabel *messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(overlayView.frame), 50)];
     messageLabel.text = @"Screenshots are not allowed";
-    messageLabel.textColor = [UIColor whiteColor];
+    messageLabel.textColor = [UIColor blackColor];
     messageLabel.textAlignment = NSTextAlignmentCenter;
     messageLabel.center = overlayView.center;
     [overlayView addSubview:messageLabel];
